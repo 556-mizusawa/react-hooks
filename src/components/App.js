@@ -20,6 +20,17 @@ const App = () => {
     setBody('');
   };
 
+  const deleteAllEvents = (e) => {
+    e.preventDefault();
+    const result = window.confirm(
+      '全てのイベントを本当に削除しても良いですか？'
+    );
+
+    if (result) dispatch({ type: 'DELETE_ALL_EVENTS' });
+  };
+
+  const unCreatable = title === '' || body === '';
+
   return (
     <div className="container-fluid">
       <h4>イベント作成フォーム</h4>
@@ -32,7 +43,7 @@ const App = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="title"
-            maxLength="10"
+            maxLength="20"
           />
         </div>
 
@@ -48,10 +59,18 @@ const App = () => {
           />
         </div>
 
-        <button className="btn btn-primary" onClick={addEvent}>
-          イベントを作成する
+        <button
+          className="btn btn-primary"
+          onClick={addEvent}
+          disabled={unCreatable}
+        >
+          イベント作成する
         </button>
-        <button className="btn btn-danger ml-1">
+        <button
+          className="btn btn-danger ml-1"
+          onClick={deleteAllEvents}
+          disabled={state.length === 0}
+        >
           全てのイベントを削除する
         </button>
 
